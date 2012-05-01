@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer');
 var fs = require('fs');
-var database = require('database');
+var database = require('./database');
 
 function send(subscription, callback) {
 
