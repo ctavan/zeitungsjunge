@@ -1,7 +1,19 @@
 var fs = require('fs');
 
+var databaseFilename = '../database/subscriptions.json';
+
+function init () {
+  var subscriptions = {
+    "4CET" : {},
+    "9CET" : {},
+    "15CET" : {}
+  };
+  fs.writeFileSync(databaseFilename, JSON.stringify(subscriptions, null, 2));
+};
+
+
 function read(time, callback) {
-  fs.readFile('../database/subscriptions.json', function(error, data) {
+  fs.readFile(databaseFilename, function(error, data) {
     if (error) {
       callback(error, null)
     } else {
@@ -14,6 +26,8 @@ function read(time, callback) {
     };
   });
 };
+
+init();
 
 exports.read = read;
   

@@ -1,0 +1,74 @@
+__license__   = 'GPL v3'
+__copyright__ = '2008, Kovid Goyal <kovid at kovidgoyal.net>'
+
+'''
+Fetch Die Zeit.
+'''
+
+from calibre.web.feeds.news import BasicNewsRecipe
+
+class ZeitDe(BasicNewsRecipe):
+
+    title = 'Die Zeit'
+    description = 'Zeit Online'
+    language = 'de'
+    #timefmt = ''
+    encoding = 'utf-8'
+    masthead_url =  'http://upload.wikimedia.org/wikipedia/de/archive/0/09/20070131223355!Die_Zeit-Logo.svg'
+
+
+    __author__ = 'Martin Pitt, Sujata Raman, Ingo Paschke, Marc Toensing and Mario Konschake'
+    no_stylesheets    = True
+    remove_javascript = True
+
+    max_articles_per_feed = 20
+    oldest_article        = 1.1
+
+    remove_tags = [
+                        dict(name=['iframe','img']),
+                        dict(name='div', attrs={'class':["response","pagination block","pagenav","inline link", "copyright","articlefooter af", "inline portrait"] }),
+                        dict(name='p', attrs={'class':["ressortbacklink", "copyright", "caption"] }),
+                        dict(name='div', attrs={'id':["place_5","place_4","comments", "relatedArticles"]})
+                      ]
+
+    keep_only_tags = [dict(id=['main'])]
+
+    feeds =  [
+               ('Top-Themen', 'http://newsfeed.zeit.de/index_xml'),
+               ('Politik', 'http://newsfeed.zeit.de/politik/index'),
+               ('Gesellschaft', 'http://newsfeed.zeit.de/gesellschaft/index'),
+               ('Kultur', 'http://newsfeed.zeit.de/kultur/index'),
+               ('Wirtschaft', 'http://newsfeed.zeit.de/wirtschaft/index'),
+               ('Meinung', 'http://newsfeed.zeit.de/meinung/index'),
+               ('Wissen', 'http://newsfeed.zeit.de/wissen/index'),
+               ('Digital', 'http://newsfeed.zeit.de/digital/index'),
+               ('Studium', 'http://newsfeed.zeit.de/studium/index'),
+               ('Karriere', 'http://newsfeed.zeit.de/karriere/index'),
+               ('Sport', 'http://newsfeed.zeit.de/sport/index'),
+               ('Lebensart', 'http://newsfeed.zeit.de/lebensart/index'),
+               #('Reisen', 'http://newsfeed.zeit.de/reisen/index'),
+               #('Auto', 'http://newsfeed.zeit.de/auto/index'),
+             ]
+
+    extra_css = '.excerpt{font-weight: bold}.reaktion,.taglist,.comments,.reponse,.responsetitle,.responsebody,.reponse,.inline,.date{display:none;}li.date{display:block}'
+
+    def get_article_url(self, article):
+        ans = article.get('link',None)
+        ans += "/komplettansicht"
+
+        if 'video' in ans or 'quiz' in ans or 'blog' in ans :
+              ans = None
+        return ans
+
+    def preprocess_html(self, soup):
+        for tag in soup.findAll(name=['ul','li']):
+            tag.name = 'div'
+
+        soup.html['xml:lang'] = self.language.replace('_', '-')
+        soup.html['lang']     = self.language.replace('_', '-')
+        mtag = '<meta http-equiv="Content-Type" content="text/html; charset=' + self.encoding + '">'
+        soup.head.insert(0,mtag)
+        return soup
+
+    def get_cover_url(self):
+        return 'http://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png'

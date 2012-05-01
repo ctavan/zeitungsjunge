@@ -1,0 +1,63 @@
+__license__   = 'GPL v3'
+__copyright__ = '2008-2011, Kovid Goyal <kovid at kovidgoyal.net>, Darko Miletic <darko at gmail.com>, Ralph Stenzel <ralph at klein-aber-fein.de>'
+'''
+Profile to download FAZ.NET
+'''
+
+from calibre.web.feeds.news import BasicNewsRecipe
+
+class FazNet(BasicNewsRecipe):
+    title                 = 'Frankfurter Allgemeine'
+    __author__            = 'Kovid Goyal, Darko Miletic, Ralph Stenzel, Mario Konschake'
+    description           = 'Frankfurter Allgemeine Zeitung'
+    publisher             = 'FAZ Electronic Media GmbH'
+    category              = 'news, politics, Germany'
+    use_embedded_content  = False
+    language = 'de'
+
+    max_articles_per_feed = 20
+    oldest_article        = 1.1
+    timefmt               = ''
+    no_stylesheets        = True
+    encoding              = 'utf-8'
+    remove_javascript     = True
+    remove_empty_feeds    = True
+    
+    masthead_url = 'http://upload.wikimedia.org/wikipedia/de/a/a3/Frankfurter_Allgemeine_Logo.svg'
+
+    html2lrf_options = [
+                          '--comment', description
+                        , '--category', category
+                        , '--publisher', publisher
+                        ]
+
+    html2epub_options = 'publisher="' + publisher + '"\ncomments="' + description + '"\ntags="' + category + '"'
+
+    keep_only_tags = [dict(name='div', attrs={'class':['FAZArtikelEinleitung', 'FAZArtikelText']})]
+    
+    remove_tags = [
+                    dict(name=['object','link','embed','base', 'img']),
+                    dict(name='div', attrs={'class':['LinkBoxModulSmall','ModulVerlagsInfo', 'ArtikelRelatedLinks', 'ArtikelFooter','ArtikelAbbinder','ArtikelKommentieren Artikelfuss GETS;tk;boxen.top-lesermeinungen;tp;content']}),
+                    dict(name='span', attrs={'class':['Bildnachweis', 'Bildunterschrift','PagerStatus left']})
+                  ]
+
+    extra_css = '.Copy { font-style: italic;}'
+
+    feeds = [
+              ('Top-Themen', 'http://www.faz.net/aktuell/?rssview=1'),
+              ('Politik', 'http://www.faz.net/aktuell/politik/?rssview=1'),
+              ('Feuilleton', 'http://www.faz.net/aktuell/feuilleton/?rssview=1'),
+              ('Gesellschaft', 'http://www.faz.net/aktuell/gesellschaft/?rssview=1'),
+              ('Wirtschaft', 'http://www.faz.net/aktuell/wirtschaft/?rssview=1'),
+              ('Finanzen', 'http://www.faz.net/aktuell/finanzen/?rssview=1'),
+              #('Reise', 'http://www.faz.net/s/RubE2FB5CA667054BDEA70FB3BC45F8D91C/Tpl~Epartner~SRss_.xml'),
+              ('Wissen', 'http://www.faz.net/aktuell/wissen/?rssview=1'),
+              ('Technik & Motor', 'http://www.faz.net/aktuell/technik-motor/?rssview=1'),
+              ('Beruf & Chance', 'http://www.faz.net/aktuell/beruf-chance/?rssview=1')
+            ]
+
+    def print_version(self, url):
+        return url + '#Drucken'
+        
+    def get_cover_url(self):
+        return 'http://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png'
