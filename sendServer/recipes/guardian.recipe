@@ -27,7 +27,7 @@ class Guardian(BasicNewsRecipe):
     language = 'en_GB'
 
     oldest_article              = 1.1
-    max_articles_per_feed       = 20
+    max_articles_per_feed       = 40
     remove_javascript           = True
     encoding                    = 'utf-8'
     remove_empty_feeds = True

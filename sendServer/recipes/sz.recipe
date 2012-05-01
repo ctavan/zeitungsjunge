@@ -15,7 +15,7 @@ class Sueddeutsche(BasicNewsRecipe):
     category              = 'news, politics, Germany'
     timefmt               = ''
     oldest_article        = 1.1
-    max_articles_per_feed = 20
+    max_articles_per_feed = 40
     language              = 'de'
     encoding              = 'utf-8'
     publication_type      = 'newspaper'

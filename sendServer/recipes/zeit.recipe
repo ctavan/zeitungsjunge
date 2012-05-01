@@ -21,7 +21,7 @@ class ZeitDe(BasicNewsRecipe):
     no_stylesheets    = True
     remove_javascript = True
 
-    max_articles_per_feed = 20
+    max_articles_per_feed = 40
     oldest_article        = 1.1
 
     remove_tags = [
@@ -50,7 +50,7 @@ class ZeitDe(BasicNewsRecipe):
                #('Auto', 'http://newsfeed.zeit.de/auto/index'),
              ]
 
-    extra_css = '.excerpt{font-weight: bold}.reaktion,.taglist,.comments,.reponse,.responsetitle,.responsebody,.reponse,.inline,.date{display:none;}li.date{display:block}'
+    extra_css = '.excerpt{font-weight: italic}.reaktion,.taglist,.comments,.reponse,.responsetitle,.responsebody,.reponse,.inline,.date{display:none;}li.date{display:block}'
 
     def get_article_url(self, article):
         ans = article.get('link',None)

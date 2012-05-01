@@ -10,7 +10,7 @@ class TazRSSRecipe(BasicNewsRecipe):
     language = 'de'
     lang = 'de-DE'
     oldest_article = 1.1
-    max_articles_per_feed = 20
+    max_articles_per_feed = 40
     use_embedded_content  = False
     no_stylesheets        = True
     encoding              = 'utf-8'
