@@ -15,7 +15,5 @@ function read(time, callback) {
   });
 };
 
-read("4", function(err, sub) { console.log(sub) });
-
 exports.read = read;
   

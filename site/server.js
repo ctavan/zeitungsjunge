@@ -4,7 +4,7 @@ var express = require('express'),
   logger = require('../log/logger');
 
 function authorize(username, password) {
-  logger.log("Authorization with username: " + username + " and password: " + password);
+  logger.log("User: " + username);
   var myAuth = JSON.parse(fs.readFileSync('../database/.authUsers.json'));
   return myAuth.password === password;
 };
@@ -32,7 +32,7 @@ function start(route, handle) {
     express.basicAuth(authorize),
     express.logger({
       stream: logger.stream,
-      format: 'default'
+      format: '[:date] IP: :remote-addr w/ :status '
       }),
     onRequest
     ).listen(8080);

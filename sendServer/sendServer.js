@@ -9,14 +9,7 @@ var database = require('./database'),
 
 function sendPaper(subscription, callback) {
   //downloading websites using calibre (http://calibre-ebook.com)
-  var recipeName = {Faz:          '"FAZ.NET.recipe"',
-                    Tagesspiegel: '"Der Tagesspiegel.recipe"',
-                    Sueddeutsche: '"Süddeutsche.recipe"',
-                    Zeit:         '"Zeit Online.recipe"',
-                    Taz:          '"Taz.de (die tageszeitung) RSS Feed - German.recipe"',
-                    SpOn:         '"Spiegel Online - German.recipe"'
-                    };
-  exec('ebook-convert ' + recipeName[subscription["name"]] + ' mobi/' + subscription["name"] + '.mobi', function (error, stdout, stderr) {
+  exec('ebook-convert recipes/' + subscription["name"] + '.recipe mobi/' + subscription["name"] + '.mobi', function (error, stdout, stderr) {
     if (error) {
       logger.log('Download error: ' + subscription["name"] + '. Calibre output following');
       logger.log('stdout: ' + stdout);
