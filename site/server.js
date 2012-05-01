@@ -32,7 +32,7 @@ function start(route, handle) {
     express.basicAuth(authorize),
     express.logger({
       stream: logger.stream,
-      format: '[:date] IP: :remote-addr w/ :status '
+      format: '[:date] IP: :remote-addr :method :url w/ :status '
       }),
     onRequest
     ).listen(8080);
