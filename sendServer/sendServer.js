@@ -9,7 +9,7 @@ var database = require('./database'),
 
 function sendPaper(subscription, callback) {
   //downloading websites using calibre (http://calibre-ebook.com)
-  exec('ebook-convert recipes/' + subscription["name"] + '.recipe mobi/' + subscription["name"] + '.mobi', function (error, stdout, stderr) {
+  exec('ebook-convert recipes/' + subscription["name"] + '.recipe mobi/' + subscription["name"] + '.mobi --output-profile kindle', function (error, stdout, stderr) {
     if (error) {
       logger.log('Download error: ' + subscription["name"] + '. Calibre output following');
       logger.log('stdout: ' + stdout);
