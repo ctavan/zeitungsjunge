@@ -51,7 +51,7 @@ class ZeitDe(BasicNewsRecipe):
                #('Auto', 'http://newsfeed.zeit.de/auto/index'),
              ]
 
-    extra_css = '.excerpt{font-weight: italic}.reaktion,.taglist,.comments,.reponse,.responsetitle,.responsebody,.reponse,.inline,.date{display:none;}li.date{display:block}'
+    extra_css = '.excerpt{font-style: italic}.reaktion,.taglist,.comments,.reponse,.responsetitle,.responsebody,.reponse,.inline,.date{display:none;}li.date{display:block}'
 
     def get_article_url(self, article):
         ans = article.get('link',None)

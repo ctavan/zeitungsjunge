@@ -38,7 +38,7 @@ class Sueddeutsche(BasicNewsRecipe):
          dict(name='img')
          ]
          
-    extra_css = '.entry-summary { font-style: italic;}'
+    extra_css = '.entry-summary {font-style: italic;}'
     
     feeds = [
               (u'Politik', u'http://suche.sueddeutsche.de/query/%23/sort/-docdatetime/drilldown/%C2%A7ressort%3A%5EPolitik%24?output=rss'),
