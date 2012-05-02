@@ -27,7 +27,5 @@ function read(time, callback) {
   });
 };
 
-init();
-
 exports.read = read;
   
