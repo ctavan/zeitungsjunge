@@ -30,7 +30,8 @@ class Guardian(BasicNewsRecipe):
     max_articles_per_feed       = 40
     remove_javascript           = True
     encoding                    = 'utf-8'
-    remove_empty_feeds = True
+    remove_empty_feeds          = True
+    timeout                     = 60
 
     # List of section titles to ignore
     ignore_sections = ['Sport', 'G2']

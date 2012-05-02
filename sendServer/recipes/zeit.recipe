@@ -23,6 +23,7 @@ class ZeitDe(BasicNewsRecipe):
 
     max_articles_per_feed = 40
     oldest_article        = 1.1
+    timeout               = 60
 
     remove_tags = [
                         dict(name=['iframe','img']),

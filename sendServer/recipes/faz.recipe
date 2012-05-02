@@ -22,6 +22,7 @@ class FazNet(BasicNewsRecipe):
     encoding              = 'utf-8'
     remove_javascript     = True
     remove_empty_feeds    = True
+    timeout               = 60
     
     masthead_url = 'http://upload.wikimedia.org/wikipedia/de/a/a3/Frankfurter_Allgemeine_Logo.svg'
 

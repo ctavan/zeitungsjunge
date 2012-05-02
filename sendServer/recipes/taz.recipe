@@ -17,7 +17,9 @@ class TazRSSRecipe(BasicNewsRecipe):
     remove_javascript     = True
     remove_empty_feeds    = True
     timefmt               = ''
+    timeout               = 60
     publisher = 'taz Entwicklungs GmbH & Co. Medien KG'
+    masthead_url = 'http://www.pottblog.de/images/taz-logo.gif'
 
     conversion_options = {'publisher': publisher,
                           'language': lang,
@@ -35,12 +37,12 @@ class TazRSSRecipe(BasicNewsRecipe):
       ('Überwachung', 'http://www.taz.de/Schwerpunkt-berwachung/!t10;rss/')
     ]
     
-    keep_only_tags = [dict(name='div', attrs={'class': 'sect sect_article'})]
+    keep_only_tags = [dict(name='div', attrs={'class': ['sect sect_article', 'article']})]
     
-    remove_tags_after = dict(name='div', attrs={'class': 'rack'})
+    #remove_tags_after = dict(name='div', attrs={'class': "sect sect_seealso box first_box last_box"})
     
     remove_tags = [
-         dict(name=['div'], attrs={'class': ['artikelwerbung', 'caption', 'credit', 'rack','secthead']}),
+         dict(name=['div'], attrs={'class': ['artikelwerbung', 'caption', 'credit', 'rack','secthead','sectfoot']}),
          dict(name=['span'], attrs={'class': ['credit']}),
          dict(name=['p'], attrs={'class': ['caption']}),
          dict(name=['ul'], attrs={'class': 'toolbar'}),
