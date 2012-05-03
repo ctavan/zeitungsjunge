@@ -71,6 +71,12 @@ class Sueddeutsche(BasicNewsRecipe):
 # Article download source is: http://sz.de/1.1237295 (Ski Alpin: Der Erfolg kommt, der Trainer geht)
 # Article source is:          http://www.sueddeutsche.de/sport/ski-alpin-der-erfolg-kommt-der-trainer-geht-1.1237295
 # Article printversion is:    http://www.sueddeutsche.de/sport/2.220/ski-alpin-der-erfolg-kommt-der-trainer-geht-1.1237295
+    
+    def preprocess_html(self, soup):
+        for tag in soup.findAll(name=['strong']):
+              tag.insert(len(tag.string), '- ')
+        return soup
+    
     def print_version(self, url):
         n_url=self.browser.open_novisit(url).geturl()
         main, sep, id = n_url.rpartition('/')

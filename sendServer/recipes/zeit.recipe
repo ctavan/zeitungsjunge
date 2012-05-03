@@ -32,7 +32,10 @@ class ZeitDe(BasicNewsRecipe):
                         dict(name='div', attrs={'id':["place_5","place_4","comments", "relatedArticles"]})
                       ]
 
-    keep_only_tags = [dict(id=['main'])]
+    keep_only_tags = [
+                      dict(id=['main']),
+                      dict(name='div', attrs={' class':['tools'] })
+                    ]
 
     feeds =  [
                ('Top-Themen', 'http://newsfeed.zeit.de/index_xml'),
@@ -62,8 +65,17 @@ class ZeitDe(BasicNewsRecipe):
         return ans
 
     def preprocess_html(self, soup):
+        
         for tag in soup.findAll(name=['ul','li']):
             tag.name = 'div'
+            
+        for tag in soup.findAll(name=['span']):
+            if tag['class'] == 'supertitle':
+              tag.name = 'h4'
+            if tag['class'] == 'title':
+              tag.name = 'h2'
+              
+        
 
         soup.html['xml:lang'] = self.language.replace('_', '-')
         soup.html['lang']     = self.language.replace('_', '-')

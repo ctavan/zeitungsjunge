@@ -38,8 +38,9 @@ class FazNet(BasicNewsRecipe):
     
     remove_tags = [
                     dict(name=['object','link','embed','base', 'img']),
-                    dict(name='div', attrs={'class':['LinkBoxModulSmall','ModulVerlagsInfo', 'ArtikelRelatedLinks', 'ArtikelFooter','ArtikelAbbinder','ArtikelKommentieren Artikelfuss GETS;tk;boxen.top-lesermeinungen;tp;content']}),
-                    dict(name='span', attrs={'class':['Bildnachweis', 'Bildunterschrift','PagerStatus left']})
+                    dict(name='div', attrs={'class':['LinkBoxModulSmall','ModulVerlagsInfo', 'ArtikelRelatedLinks', 'ArtikelFooter','ArtikelAbbinder','ArtikelKommentieren Artikelfuss GETS;tk;boxen.top-lesermeinungen;tp;content',"ArtikelFotostrecke"]}),
+                    dict(name='span', attrs={'class':['Bildnachweis', 'Bildunterschrift','PagerStatus left']}),
+                    dict(name='p', attrs={'class':['ArtikelFotostreckeComment']})
                   ]
 
     extra_css = '.Copy { font-style: italic;}'
@@ -56,6 +57,12 @@ class FazNet(BasicNewsRecipe):
               ('Technik & Motor', 'http://www.faz.net/aktuell/technik-motor/?rssview=1'),
               ('Beruf & Chance', 'http://www.faz.net/aktuell/beruf-chance/?rssview=1')
             ]
+
+    def preprocess_html(self, soup):
+        for tag in soup.findAll(name=['span']):
+            if tag['class'] == 'Stichwort':
+              tag.insert(len(tag.string), ':')
+        return soup
 
     def print_version(self, url):
         return url + '#Drucken'
