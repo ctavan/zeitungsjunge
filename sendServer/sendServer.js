@@ -30,13 +30,13 @@ function sendPaper(subscription, callback) {
   });
 };
 
-  
+
 var startJob = function(time) {
-  
+
   //start cron job to download and send paper daily at <time> o'clock
   new cronJob(time + ' ' + time + ' ' + time + ' * * *', function() {
     logger.log('Start cron job: ' + time + 'h');
-    
+
     //read name of papers and its subscribers from database
     database.read(time, function (error, subscriptions) {
       if (error) {
@@ -47,7 +47,7 @@ var startJob = function(time) {
           if (error) {
             logger.log('Sending error: ' + error);
           } else {
-            logger.log('Finished cron job: ' + time + "h");           
+            logger.log('Finished cron job: ' + time + "h");
           };
         });
       };
@@ -66,8 +66,8 @@ var sendMail = function(timeStr) {
     default:        throw new Error('Unaccepted time string.');
   };
 };
-        
-logger.log('SendServer started');                    
+
+logger.log('SendServer started');
 sendMail('morning');
 sendMail('noon');
 sendMail('evening');
