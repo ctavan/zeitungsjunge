@@ -14,21 +14,19 @@ function sendPaper(subscription, callback) {
       logger.log('Download error: ' + subscription["name"] + '. Calibre output following');
       logger.log('stdout: ' + stdout);
       logger.log('stderr: ' + stderr);
-      callback(error, null);
-    } else {
-      logger.log ('Successful download of ' + subscription["name"]);
-      //send .mobi to kindle subscribers
-      mailer.send(subscription, function(error, response) {
-        if (error) {
-          logger.log('Sending error. Response: ' + response);
-          logger.log('List of subscribers: ' + subscription['subscribers']);
-          callback(error, null);
-        } else {
-          logger.log(subscription['name'] + ' successful sent to: ' + subscription['subscribers']);
-          callback(null, null);
-        };
-      });
-    };
+      return callback(error, null);
+    }
+    logger.log ('Successful download of ' + subscription["name"]);
+    //send .mobi to kindle subscribers
+    mailer.send(subscription, function(error, response) {
+      if (error) {
+        logger.log('Sending error. Response: ' + response);
+        logger.log('List of subscribers: ' + subscription['subscribers']);
+        return callback(error, null);
+      }
+      logger.log(subscription['name'] + ' successful sent to: ' + subscription['subscribers']);
+      callback(null, null);
+    });
   });
 };
 
