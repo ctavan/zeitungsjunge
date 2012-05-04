@@ -33,26 +33,32 @@ function sendPaper(subscription, callback) {
 
 var startJob = function(time) {
 
-  //start cron job to download and send paper daily at <time> o'clock
-  new cronJob(time + ' ' + time + ' ' + time + ' * * *', function() {
+  function finishedSending(error) {
+    if (error) {
+      logger.log('Sending error: ' + error);
+    } else {
+      logger.log('Finished cron job: ' + time + "h");
+    };
+  }
+
+  function handleSubscriptions(error, subscriptions) {
+    if (error) {
+      logger.log('Data base error: '+ error);
+    } else {
+      //download all papers, convert to .mobi format and send to subscribers
+      async.forEachLimit(subscriptions, 2, sendPaper, finishedSending);
+    };
+  }
+
+  function job() {
     logger.log('Start cron job: ' + time + 'h');
 
     //read name of papers and its subscribers from database
-    database.read(time, function (error, subscriptions) {
-      if (error) {
-        logger.log('Data base error: '+ error);
-      } else {
-        //download all papers, convert to .mobi format and send to subscribers
-        async.forEachLimit(subscriptions, 2 ,sendPaper, function(error) {
-          if (error) {
-            logger.log('Sending error: ' + error);
-          } else {
-            logger.log('Finished cron job: ' + time + "h");
-          };
-        });
-      };
-    });
-  }, null, true);
+    database.read(time, handleSubscriptions);
+  }
+
+  //start cron job to download and send paper daily at <time> o'clock
+  new cronJob(time + ' ' + time + ' ' + time + ' * * *', job, null, true);
 };
 
 var sendMail = function(timeStr) {
